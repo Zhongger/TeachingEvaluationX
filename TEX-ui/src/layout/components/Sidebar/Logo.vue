@@ -26,7 +26,7 @@ export default {
   },
   data() {
     return {
-      title: '教学质量评价管理系统',
+      title: '教评管理系统',
       logo: logoImg
     }
   }
@@ -69,7 +69,7 @@ export default {
       color: #fff;
       font-weight: 600;
       line-height: 50px;
-      font-size: 14px;
+      font-size: 20px;
       font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
       vertical-align: middle;
     }

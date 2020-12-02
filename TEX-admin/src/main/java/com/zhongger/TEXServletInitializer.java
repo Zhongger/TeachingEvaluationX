@@ -1,0 +1,11 @@
+package com.zhongger;
+
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+
+public class TEXServletInitializer extends SpringBootServletInitializer {
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(com.zhongger.TEXApplication.class);
+    }
+}
