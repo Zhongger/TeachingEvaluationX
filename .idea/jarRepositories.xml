@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="public" />
+      <option name="name" value="aliyun nexus" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="central" />
+      <option name="url" value="http://maven.aliyun.com/nexus/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-internal-releases" />
+      <option name="name" value="nexus internal releases" />
+      <option name="url" value="https://nexus.huya.com/repository/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="yypm-internal-releases" />
+      <option name="name" value="yypm internal releases" />
+      <option name="url" value="https://nexus.huya.com/repository/yypm/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-huya-public" />
+      <option name="name" value="nexus internal huya republicleases" />
+      <option name="url" value="https://nexus.huya.com/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-public-repo" />
+      <option name="name" value="nexus public repository" />
+      <option name="url" value="https://nexus.huya.com/repository/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jrepo2-internal-releases" />
+      <option name="name" value="jrepo2 internal releases" />
+      <option name="url" value="https://nexus.huya.com/repository/jrepo2-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="nexus-internal-snapshots" />
+      <option name="name" value="nexus internal snapshots" />
+      <option name="url" value="https://nexus.huya.com/repository/snapshots/" />
+    </remote-repository>
+  </component>
+</project>
