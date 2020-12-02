@@ -160,50 +160,45 @@
             
             <!-- 定时任务-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-quartz</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>com.zhongger</groupId>
+                <artifactId>TEX-quartz</artifactId>
+                <version>3.2.1</version>
             </dependency>
+
 	
             <!-- 代码生成-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-generator</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>com.zhongger</groupId>
+                <artifactId>TEX-generator</artifactId>
+                <version>3.2.1</version>
             </dependency>
+
 			
             <!-- 核心模块-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-framework</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>com.zhongger</groupId>
+                <artifactId>TEX-framework</artifactId>
+                <version>3.2.1</version>
             </dependency>
+
 			
             <!-- 系统模块-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-system</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>com.zhongger</groupId>
+                <artifactId>TEX-system</artifactId>
+                <version>3.2.1</version>
             </dependency>
-			
             <!-- 通用工具-->
             <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-common</artifactId>
-                <version>${ruoyi.version}</version>
+                <groupId>com.zhongger</groupId>
+                <artifactId>TEX-common</artifactId>
+                <version>3.2.1</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
     <modules>
-        <module>ruoyi-admin</module>
-        <module>ruoyi-framework</module>
-        <module>ruoyi-system</module>
-        <module>ruoyi-quartz</module>
-        <module>ruoyi-generator</module>
-        <module>ruoyi-common</module>
-        <module>TXE-admin</module>
+        <module>TEX-admin</module>
         <module>TEX-common</module>
         <module>TEX-framework</module>
         <module>TEX-generator</module>
@@ -214,9 +209,7 @@
     <packaging>pom</packaging>
 
 
-    <dependencies>
-
-    </dependencies>
+   >
 
     <build>
         <plugins>
