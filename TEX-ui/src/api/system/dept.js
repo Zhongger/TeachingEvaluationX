@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询部门列表
+// 查询院系列表
 export function listDept(query) {
   return request({
     url: '/system/dept/list',
@@ -9,7 +9,7 @@ export function listDept(query) {
   })
 }
 
-// 查询部门列表（排除节点）
+// 查询院系列表（排除节点）
 export function listDeptExcludeChild(deptId) {
   return request({
     url: '/system/dept/list/exclude/' + deptId,
@@ -17,7 +17,7 @@ export function listDeptExcludeChild(deptId) {
   })
 }
 
-// 查询部门详细
+// 查询院系详细
 export function getDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,
@@ -25,7 +25,7 @@ export function getDept(deptId) {
   })
 }
 
-// 查询部门下拉树结构
+// 查询院系下拉树结构
 export function treeselect() {
   return request({
     url: '/system/dept/treeselect',
@@ -33,7 +33,7 @@ export function treeselect() {
   })
 }
 
-// 根据角色ID查询部门树结构
+// 根据角色ID查询院系树结构
 export function roleDeptTreeselect(roleId) {
   return request({
     url: '/system/dept/roleDeptTreeselect/' + roleId,
@@ -41,7 +41,7 @@ export function roleDeptTreeselect(roleId) {
   })
 }
 
-// 新增部门
+// 新增院系
 export function addDept(data) {
   return request({
     url: '/system/dept',
@@ -50,7 +50,7 @@ export function addDept(data) {
   })
 }
 
-// 修改部门
+// 修改院系
 export function updateDept(data) {
   return request({
     url: '/system/dept',
@@ -59,7 +59,7 @@ export function updateDept(data) {
   })
 }
 
-// 删除部门
+// 删除院系
 export function delDept(deptId) {
   return request({
     url: '/system/dept/' + deptId,

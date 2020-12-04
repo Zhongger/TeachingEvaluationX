@@ -8,6 +8,14 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class TEXApplication {
     public static void main(String[] args) {
         SpringApplication.run(com.zhongger.TEXApplication.class, args);
-        System.out.println(" 教学评价管理系统启动成功~");
+        System.out.println("\n" +
+                "  _______ ________   __     _____ _    _  _____ _____ ______  _____ _____ \n" +
+                " |__   __|  ____\\ \\ / /    / ____| |  | |/ ____/ ____|  ____|/ ____/ ____|\n" +
+                "    | |  | |__   \\ V /____| (___ | |  | | |   | |    | |__  | (___| (___  \n" +
+                "    | |  |  __|   > <______\\___ \\| |  | | |   | |    |  __|  \\___ \\\\___ \\ \n" +
+                "    | |  | |____ / . \\     ____) | |__| | |___| |____| |____ ____) |___) |\n" +
+                "    |_|  |______/_/ \\_\\   |_____/ \\____/ \\_____\\_____|______|_____/_____/ \n" +
+                "                                                                          \n" +
+                "                                                                          \n");
     }
 }

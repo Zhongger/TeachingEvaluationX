@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongger.common.teacher.mapper.TeacherMapper">
+	<select id="selectTeacherList" resultType="com.zhongger.common.teacher.domain.TeacherVO">
+	   select *
+	   from (select s.teacher_id   as teacherId,
+             s.user_id      as id,
+             su.nick_name   as name,
+             su.sex         as sex,
+             su.phonenumber as phone,
+             su.email       as email,
+             sd.dept_name   as deptName,
+             sr.role_key
+      from teacher s
+               inner join sys_user su on s.user_id = su.user_id
+               inner join sys_dept sd on sd.dept_id = su.dept_id
+               inner join sys_user_role sur on s.user_id = sur.user_id
+               inner join sys_role sr on sur.role_id = sr.role_id) t
+	  where t.role_key = #{roleKey}
+	  <if test="teacherId  != null and teacherId != ''">
+			and t.teacherId=#{teacherId}
+	  </if>
+	</select>
+
+	<insert id="insertTeacher">
+		insert into teacher (teacher_id,user_id) values (#{teacherId},#{userId});
+	</insert>
+</mapper> 

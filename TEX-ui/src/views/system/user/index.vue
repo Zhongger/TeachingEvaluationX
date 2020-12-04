@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20">
-      <!--部门数据-->
+      <!--院系数据-->
       <el-col :span="4" :xs="24">
         <div class="head-container">
           <el-input
             v-model="deptName"
-            placeholder="请输入部门名称"
+            placeholder="请输入院系名称"
             clearable
             size="small"
             prefix-icon="el-icon-search"
@@ -28,10 +28,10 @@
       <!--用户数据-->
       <el-col :span="20" :xs="24">
         <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="用户名称" prop="userName">
+          <el-form-item label="用户名" prop="userName">
             <el-input
               v-model="queryParams.userName"
-              placeholder="请输入用户名称"
+              placeholder="请输入用户名"
               clearable
               size="small"
               style="width: 240px"
@@ -136,9 +136,9 @@
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column label="用户编号" align="center" prop="userId" />
-          <el-table-column label="用户名称" align="center" prop="userName" :show-overflow-tooltip="true" />
-          <el-table-column label="用户昵称" align="center" prop="nickName" :show-overflow-tooltip="true" />
-          <el-table-column label="部门" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
+          <el-table-column label="用户名" align="center" prop="userName" :show-overflow-tooltip="true" />
+          <el-table-column label="用户姓名" align="center" prop="nickName" :show-overflow-tooltip="true" />
+          <el-table-column label="院系" align="center" prop="dept.deptName" :show-overflow-tooltip="true" />
           <el-table-column label="手机号码" align="center" prop="phonenumber" width="120" />
           <el-table-column label="状态" align="center">
             <template slot-scope="scope">
@@ -203,13 +203,13 @@
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
         <el-row>
           <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" />
+            <el-form-item label="用户姓名" prop="nickName">
+              <el-input v-model="form.nickName" placeholder="请输入用户姓名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+            <el-form-item label="归属学院" prop="deptId">
+              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属学院" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -227,8 +227,8 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" />
+            <el-form-item v-if="form.userId == undefined" label="用户名" prop="userName">
+              <el-input v-model="form.userName" placeholder="请输入用户名" />
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -251,34 +251,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
-                <el-radio
-                  v-for="dict in statusOptions"
-                  :key="dict.dictValue"
-                  :label="dict.dictValue"
-                >{{dict.dictLabel}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
-                <el-option
-                  v-for="item in postOptions"
-                  :key="item.postId"
-                  :label="item.postName"
-                  :value="item.postId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
             <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+              <el-select v-model="form.roleIds"  placeholder="请选择">
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.roleId"
@@ -289,6 +263,33 @@
               </el-select>
             </el-form-item>
           </el-col>
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="状态">-->
+<!--              <el-radio-group v-model="form.status">-->
+<!--                <el-radio-->
+<!--                  v-for="dict in statusOptions"-->
+<!--                  :key="dict.dictValue"-->
+<!--                  :label="dict.dictValue"-->
+<!--                >{{dict.dictLabel}}</el-radio>-->
+<!--              </el-radio-group>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+        </el-row>
+        <el-row>
+<!--          <el-col :span="12">-->
+<!--            <el-form-item label="岗位" disabled="true">-->
+<!--              <el-select v-model="form.postIds" multiple placeholder="请选择">-->
+<!--                <el-option-->
+<!--                  v-for="item in postOptions"-->
+<!--                  :key="item.postId"-->
+<!--                  :label="item.postName"-->
+<!--                  :value="item.postId"-->
+<!--                  :disabled="item.status == 1"-->
+<!--                ></el-option>-->
+<!--              </el-select>-->
+<!--            </el-form-item>-->
+<!--          </el-col>-->
+
         </el-row>
         <el-row>
           <el-col :span="24">
@@ -365,11 +366,11 @@ export default {
       userList: null,
       // 弹出层标题
       title: "",
-      // 部门树选项
+      // 院系树选项
       deptOptions: undefined,
       // 是否显示弹出层
       open: false,
-      // 部门名称
+      // 院系名称
       deptName: undefined,
       // 默认密码
       initPassword: undefined,
@@ -416,13 +417,13 @@ export default {
       // 表单校验
       rules: {
         userName: [
-          { required: true, message: "用户名称不能为空", trigger: "blur" }
+          { required: true, message: "用户名不能为空", trigger: "blur" }
         ],
         nickName: [
-          { required: true, message: "用户昵称不能为空", trigger: "blur" }
+          { required: true, message: "用户姓名不能为空", trigger: "blur" }
         ],
         deptId: [
-          { required: true, message: "归属部门不能为空", trigger: "change" }
+          { required: true, message: "归属院系不能为空", trigger: "change" }
         ],
         password: [
           { required: true, message: "用户密码不能为空", trigger: "blur" }
@@ -447,7 +448,7 @@ export default {
     };
   },
   watch: {
-    // 根据名称筛选部门树
+    // 根据名称筛选院系树
     deptName(val) {
       this.$refs.tree.filter(val);
     }
@@ -476,7 +477,7 @@ export default {
         }
       );
     },
-    /** 查询部门下拉树结构 */
+    /** 查询院系下拉树结构 */
     getTreeselect() {
       treeselect().then(response => {
         this.deptOptions = response.data;
