@@ -17,3 +17,12 @@ export function listCourse(query) {
     params: query
   })
 }
+
+
+export function listSelectCourse(query) {
+  return request({
+    url: '/student/listSelectCourse',
+    method: 'get',
+    params: query
+  })
+}

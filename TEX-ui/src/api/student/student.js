@@ -9,3 +9,20 @@ export function listStudent(query) {
     params: query
   })
 }
+
+// 新增选课
+export function addSelectCourse(data) {
+  return request({
+    url: '/student/addSelectCourse',
+    method: 'post',
+    data: data
+  })
+}
+
+export function deleteSelectCourse(data) {
+  return request({
+    url: '/student/deleteSelectCourse',
+    method: 'post',
+    data: data
+  })
+}

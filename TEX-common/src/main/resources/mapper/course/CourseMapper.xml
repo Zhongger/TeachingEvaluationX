@@ -24,7 +24,8 @@
         select * from (select course_id as courseId,course_name as courseName,
         sd.dept_name as courseDeptName,course_type as courseType,
         su.nick_name as courseTeacherName, course_time as courseTime,
-        course_score as courseScore
+        course_score as courseScore,
+        t.teacher_id as teacherId
         from course inner join teacher t on course.teacher_id = t.teacher_id
         inner join sys_dept sd on course.dept_id = sd.dept_id
         inner join sys_user su on su.user_name = t.teacher_id) t
@@ -33,6 +34,26 @@
             and t.courseName=#{courseName}
         </if>
 
+    </select>
+
+
+    <select id="selectSelectCourseList" parameterType="com.zhongger.common.course.domin.SelectCourse"
+            resultType="com.zhongger.common.course.domin.SelectCourseVO">
+       select c.course_id as courseId,c.course_name as courseName,
+       sd.dept_name as courseDeptName,c.course_type as courseType,
+       su.nick_name as courseTeacherName,c.course_time as courseTime,
+       c.course_score as courseScore,stc.select_status as selectStatus,
+        stc.teacher_id as teacherId
+       from student_teacher_course stc
+        inner join student s on stc.student_id = s.student_id
+        inner join teacher t on stc.teacher_id = t.teacher_id
+        inner join course c on stc.course_id = c.course_id
+        inner join sys_dept sd on c.dept_id = sd.dept_id
+        inner join sys_user su on su.user_name=stc.teacher_id
+        where 1=1
+        <if test="userName != null and userName != ''">
+            and stc.student_id=#{userName}
+        </if>
     </select>
 
     <insert id="insertCourse" parameterType="com.zhongger.common.course.domin.Course" keyProperty="id"
@@ -48,5 +69,30 @@
         )
     </insert>
 
+    <insert id="insertStudentCourseTeacher" parameterType="com.zhongger.common.course.domin.SelectCourse"  keyProperty="id"
+            useGeneratedKeys="true">
+        insert into student_teacher_course (
+        <if test="id != null and id != ''">id,</if>
+        student_id,course_id,teacher_id,select_status
+        ) values (
+        <if test="id != null and id != ''">#{id},</if>
+        #{userName},#{courseId},#{teacherId},'已选'
+        );
+    </insert>
 
+    <update id="deleteSelectCourse" parameterType="com.zhongger.common.course.domin.SelectCourse">
+        update student_teacher_course set select_status = '未选' where
+        student_id=#{userName} and course_id=#{courseId} and teacher_id=#{teacherId};
+    </update>
+
+    <select id="selectStudentCourseTeacher" parameterType="com.zhongger.common.course.domin.SelectCourse"
+    resultType="int">
+        select count(1) from student_teacher_course where
+        student_id=#{userName} and course_id=#{courseId} and teacher_id=#{teacherId};
+    </select>
+
+    <update id="addStudentCourseTeacher" parameterType="com.zhongger.common.course.domin.SelectCourse">
+         update student_teacher_course set select_status = '已选' where
+        student_id=#{userName} and course_id=#{courseId} and teacher_id=#{teacherId};
+    </update>
 </mapper> 

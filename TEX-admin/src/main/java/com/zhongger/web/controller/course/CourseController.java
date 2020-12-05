@@ -25,7 +25,6 @@ public class CourseController extends BaseController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public AjaxResult add(@Validated @RequestBody Course course) {
-        System.out.println(course);
         if (courseService.checkCourseIdUnique(course.getCourseId()) > 0) {
             return AjaxResult.error("新增课程'" + course.getCourseName() + "'失败，课程编号已存在");
         }

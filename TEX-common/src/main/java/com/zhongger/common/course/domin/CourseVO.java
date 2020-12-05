@@ -11,6 +11,24 @@ public class CourseVO {
     private String courseTeacherName;
     private Integer courseTime;
     private Double courseScore;
+    private String selectStatus;
+    private String teacherId;
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public String getSelectStatus() {
+        return selectStatus;
+    }
+
+    public void setSelectStatus(String selectStatus) {
+        this.selectStatus = selectStatus;
+    }
 
     public String getCourseId() {
         return courseId;
