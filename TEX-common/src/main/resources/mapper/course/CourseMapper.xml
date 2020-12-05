@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongger.common.course.mapper.CourseMapper">
+
+    <select id="checkCourseIdUnique" parameterType="String" resultType="int">
+		select count(1) from course where course_id = #{courseId}
+	</select>
+
+    <resultMap type="com.zhongger.common.course.domin.Course" id="CourseResult">
+        <id property="id" column="id"/>
+        <result property="courseId" column="course_id"/>
+        <result property="courseName" column="course_name"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="courseType" column="course_type"/>
+        <result property="teacherId" column="teacher_id"/>
+        <result property="courseTime" column="course_time"/>
+        <result property="courseScore" column="course_score"/>
+    </resultMap>
+
+    <select id="selectCourseList" parameterType="com.zhongger.common.course.domin.Course"
+            resultType="com.zhongger.common.course.domin.CourseVO">
+        select * from (select course_id as courseId,course_name as courseName,
+        sd.dept_name as courseDeptName,course_type as courseType,
+        su.nick_name as courseTeacherName, course_time as courseTime,
+        course_score as courseScore
+        from course inner join teacher t on course.teacher_id = t.teacher_id
+        inner join sys_dept sd on course.dept_id = sd.dept_id
+        inner join sys_user su on su.user_name = t.teacher_id) t
+        where 1=1
+        <if test="courseName!=null and courseName!='' ">
+            and t.courseName=#{courseName}
+        </if>
+
+    </select>
+
+    <insert id="insertCourse" parameterType="com.zhongger.common.course.domin.Course" keyProperty="id"
+            useGeneratedKeys="true">
+        insert into course(
+        <if test="id != null and id != ''">id,</if>
+        course_id,course_name,dept_id,
+        course_type,teacher_id,course_time,course_score
+        ) values (
+        <if test="id != null and id != ''">#{id},</if>
+        #{courseId},#{courseName},#{deptId},
+        #{courseType},#{teacherId},#{courseTime},#{courseScore}
+        )
+    </insert>
+
+
+</mapper> 
