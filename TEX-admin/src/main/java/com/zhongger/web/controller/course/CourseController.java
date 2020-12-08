@@ -2,12 +2,10 @@ package com.zhongger.web.controller.course;
 
 import com.zhongger.common.core.controller.BaseController;
 import com.zhongger.common.core.domain.AjaxResult;
-import com.zhongger.common.core.domain.entity.SysUser;
 import com.zhongger.common.core.page.TableDataInfo;
 import com.zhongger.common.course.domin.Course;
 import com.zhongger.common.course.domin.CourseVO;
 import com.zhongger.common.course.service.CourseService;
-import com.zhongger.common.teacher.domain.TeacherVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

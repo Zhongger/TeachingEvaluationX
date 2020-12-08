@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongger.common.evaluation.mapper.EvaluationMapper">
+    <select id="selectEvaluationList" parameterType="com.zhongger.common.evaluation.domain.AddEvaluation"
+            resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sce.id as id,em.content as content,em.score as score,sce.grade as grade ,sce.course_id as courseId,
+        sce.teacher_id as teacherId
+        from evaluation_meta em
+        inner join student_course_evaluation sce on em.id = sce.evaluation_id
+        where 1=1
+        <if test="studentId!=null">
+            and sce.student_id = #{studentId}
+        </if>
+        <if test="teacherId!=null">
+            and sce.teacher_id=#{teacherId}
+        </if>
+        <if test="courseId!=null">
+            and sce.course_id=#{courseId}
+        </if>
+
+    </select>
+
+    <insert id="insertStudentCourseEvaluation" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.zhongger.common.evaluation.domain.AddEvaluation">
+        insert into student_course_evaluation (student_id,teacher_id,
+        evaluation_id,course_id,grade)
+        values (#{studentId},#{teacherId},#{evaluationMetaId},#{courseId},0);
+    </insert>
+
+    <select id="selectAllEvaluationList" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select * from evaluation_meta
+    </select>
+
+    <select id="checkEvaluationInsert" resultType="int">
+        select count(1) from student_course_evaluation sce
+         where 1=1
+        <if test="studentId!=null">
+            and sce.student_id = #{studentId}
+        </if>
+        <if test="teacherId!=null">
+            and sce.teacher_id=#{teacherId}
+        </if>
+        <if test="courseId!=null">
+            and sce.course_id=#{courseId}
+        </if>
+
+    </select>
+
+</mapper>
