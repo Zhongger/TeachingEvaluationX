@@ -47,11 +47,8 @@
           <el-table-column label="课程名称" align="center" prop="courseName" :show-overflow-tooltip="true"/>
           <el-table-column label="开设学院/专业" width="300" align="center" prop="courseDeptName" :show-overflow-tooltip="true"/>
           <el-table-column label="课程性质" align="center" prop="courseType" :show-overflow-tooltip="true"/>
-          <el-table-column label="授课老师" align="center" prop="courseTeacherName" :show-overflow-tooltip="true"/>
           <el-table-column label="课时" align="center" prop="courseTime" :show-overflow-tooltip="true"/>
           <el-table-column label="学分" align="center" prop="courseScore" :show-overflow-tooltip="true"/>
-          <el-table-column label="选课状态" align="center" prop="selectStatus" :show-overflow-tooltip="true"/>
-
           <el-table-column
             label="操作"
             align="center"
@@ -65,26 +62,9 @@
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
                 v-hasPermi="['teacher:user:list']"
-              >选课
+              >查看评价
               </el-button>
-              <el-button
-                v-if="scope.row.userId !== 1"
-                size="mini"
-                type="text"
-                icon="el-icon-delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['teacher:user:list']"
-              >退选
-              </el-button>
-              <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-key"
-                v-if="scope.row.selectStatus==='已选'"
-                @click="handleEvaluate(scope.row)"
-                v-hasPermi="['teacher:user:list']"
-              >评价
-              </el-button>
+
             </template>
           </el-table-column>
         </el-table>
@@ -221,11 +201,25 @@
     <el-dialog v-model="evaluation" title="教学评价" :visible.sync="dialogFormVisible">
       <el-form  ref="form" >
         <el-table :data="evaluation" v-model="evaluation">
-          <el-table-column property="content" label="评价项目" width="500px" ></el-table-column>
-          <el-table-column property="score" label="满分" ></el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope" >
-              <el-input v-model="scope.row.grade" placeholder="请输入评分"></el-input>
+          <el-table-column property="studentId" label="学生学号" ></el-table-column>
+          <el-table-column property="studentName" label="学生姓名" ></el-table-column>
+          <el-table-column property="deptName" label="院系" ></el-table-column>
+          <el-table-column property="grade" label="评分" ></el-table-column>
+          <el-table-column
+            label="操作"
+            align="center"
+            width="160"
+            class-name="small-padding fixed-width"
+          >
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                type="text"
+                icon="el-icon-edit"
+                @click="handleUpdate(scope.row)"
+                v-hasPermi="['teacher:user:list']"
+              >查看详情
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -251,7 +245,7 @@
   } from "@/api/system/user";
   import{addSelectCourse,deleteSelectCourse} from "@/api/student/student"
   import {getToken} from "@/utils/auth";
-  import {listTeacher,listTeacherCourse} from "@/api/teacher/teacher";
+  import {listTeacher,listTeacherCourse,listEvaluationStudent} from "@/api/teacher/teacher";
   import {listEvaluation,addEvaluation,updateEvaluation} from "@/api/evaluation/evaluation";
   import {addCourse,listSelectCourse} from "@/api/course/course";
   import {treeselect} from "@/api/system/dept";
@@ -477,41 +471,12 @@
         });
 
       },
-      /** 修改按钮操作 */
+      /** 查看评价按钮操作 */
       handleUpdate(row) {
-
-        const courseId = row.courseId || this.ids;
-        this.$confirm('是否选择【'+row.courseName+'】课程？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          if (row.selectStatus==='已选'){
-              this.$message({
-              type: 'info',
-              message: '此课程已选，无法继续选课'
-            });
-          }else {
-            this.selectCourse.teacherId=row.teacherId;
-            this.selectCourse.courseId=row.courseId;
-            addSelectCourse(this.selectCourse).then(response=>{
-              this.getList();
-              this.$message({
-                type: 'success',
-                message: '选课成功!'
-              });
-            });
-
-          }
-
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消选课'
-          });
+        listEvaluationStudent({courseId:row.courseId}).then(response=>{
+          this.evaluation=response.rows;
+          this.dialogFormVisible=true;
         });
-
-
       },
 
       /** 提交按钮 */

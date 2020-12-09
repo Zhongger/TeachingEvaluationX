@@ -45,4 +45,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </select>
 
+    <select id="listEvaluationStudent" resultType="com.zhongger.common.student.domain.StudentVO">
+        select sce.course_id as courseId ,
+        sce.student_id as studentId,
+        su.nick_name as studentName,
+        sd.dept_name as deptName,
+        sum(sce.grade) as grade
+        from student_course_evaluation sce
+        inner join student s on sce.student_id = s.student_id
+        inner join sys_user su on s.student_id = su.user_name
+        inner join sys_dept sd on su.dept_id = sd.dept_id
+        where  sce.teacher_id=#{teacherId} and sce.course_id=#{courseId}
+        group by sce.course_id;
+    </select>
+
 </mapper> 

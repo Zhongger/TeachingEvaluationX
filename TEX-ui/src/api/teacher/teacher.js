@@ -18,3 +18,11 @@ export function listTeacherCourse(query) {
     params: query
   })
 }
+
+export function listEvaluationStudent(data) {
+  return request({
+    url: '/teacher/listEvaluationStudent',
+    method: 'post',
+    params: data
+  })
+}

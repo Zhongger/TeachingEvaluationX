@@ -13,6 +13,33 @@ public class StudentVO extends BaseEntity {
     private String sex;//性别
     private String phone;//电话号码
     private String email;//邮箱
+    private String courseId;
+    private Double grade;
+    private String studentName;
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
+    public Double getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Double grade) {
+        this.grade = grade;
+    }
 
     public Integer getId() {
         return id;
