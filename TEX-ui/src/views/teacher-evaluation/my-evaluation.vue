@@ -64,7 +64,7 @@
                 type="text"
                 icon="el-icon-edit"
                 @click="handleUpdate(scope.row)"
-                v-hasPermi="['student:user:list']"
+                v-hasPermi="['teacher:user:list']"
               >选课
               </el-button>
               <el-button
@@ -73,7 +73,7 @@
                 type="text"
                 icon="el-icon-delete"
                 @click="handleDelete(scope.row)"
-                v-hasPermi="['student:user:list']"
+                v-hasPermi="['teacher:user:list']"
               >退选
               </el-button>
               <el-button
@@ -82,7 +82,7 @@
                 icon="el-icon-key"
                 v-if="scope.row.selectStatus==='已选'"
                 @click="handleEvaluate(scope.row)"
-                v-hasPermi="['student:user:list']"
+                v-hasPermi="['teacher:user:list']"
               >评价
               </el-button>
             </template>
@@ -251,7 +251,7 @@
   } from "@/api/system/user";
   import{addSelectCourse,deleteSelectCourse} from "@/api/student/student"
   import {getToken} from "@/utils/auth";
-  import {listTeacher} from "@/api/teacher/teacher";
+  import {listTeacher,listTeacherCourse} from "@/api/teacher/teacher";
   import {listEvaluation,addEvaluation,updateEvaluation} from "@/api/evaluation/evaluation";
   import {addCourse,listSelectCourse} from "@/api/course/course";
   import {treeselect} from "@/api/system/dept";
@@ -393,8 +393,7 @@
       /** 查询用户列表 */
       getList() {
         this.loading = true;
-
-        listSelectCourse(this.queryParams).then(response => {
+        listTeacherCourse(this.queryParams).then(response => {
             this.userList = response.rows;
             this.total = response.total;
             this.loading = false;

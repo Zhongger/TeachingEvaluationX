@@ -27,4 +27,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertTeacher">
 		insert into teacher (teacher_id,user_id) values (#{teacherId},#{userId});
 	</insert>
+
+    <select id="listTeacherCourse"
+            resultType="com.zhongger.common.course.domin.CourseVO">
+        select * from (select course_id as courseId,course_name as courseName,
+        sd.dept_name as courseDeptName,course_type as courseType,
+        su.nick_name as courseTeacherName, course_time as courseTime,
+        course_score as courseScore,
+        t.teacher_id as teacherId
+        from course inner join teacher t on course.teacher_id = t.teacher_id
+        inner join sys_dept sd on course.dept_id = sd.dept_id
+        inner join sys_user su on su.user_name = t.teacher_id) t
+        where 1=1
+        <if test="teacherId!=null and teacherId!='' ">
+            and t.teacherId=#{teacherId}
+        </if>
+
+    </select>
+
 </mapper> 

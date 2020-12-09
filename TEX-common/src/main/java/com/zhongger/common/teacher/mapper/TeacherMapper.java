@@ -1,5 +1,6 @@
 package com.zhongger.common.teacher.mapper;
 
+import com.zhongger.common.course.domin.CourseVO;
 import com.zhongger.common.teacher.domain.TeacherVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,4 +13,6 @@ public interface TeacherMapper {
     List<TeacherVO> selectTeacherList(@Param("teacherId") String teacherId, @Param("roleKey") String roleKey);
 
     int insertTeacher(@Param("teacherId") String teacherId, @Param("userId") Long userId);
+
+    List<CourseVO> listTeacherCourse(@Param("teacherId") String username);
 }
