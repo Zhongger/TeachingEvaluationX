@@ -12,6 +12,23 @@ public class Evaluation implements Serializable {
     private Double grade;
     private String courseId;
     private String teacherId;
+    private Integer evaluationMetaId;
+
+    public Integer getEvaluationMetaId() {
+        return evaluationMetaId;
+    }
+
+    public void setEvaluationMetaId(Integer evaluationMetaId) {
+        this.evaluationMetaId = evaluationMetaId;
+    }
+
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
 
     @Override
     public String toString() {

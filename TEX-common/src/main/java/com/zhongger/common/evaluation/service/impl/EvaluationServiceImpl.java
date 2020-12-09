@@ -36,4 +36,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public int checkEvaluationInsert(AddEvaluation addEvaluation) {
         return evaluationMapper.checkEvaluationInsert(addEvaluation);
     }
+
+    @Override
+    public void updateStudentCourseEvaluation(AddEvaluation addEvaluation) {
+         evaluationMapper.updateStudentCourseEvaluation(addEvaluation);
+    }
 }

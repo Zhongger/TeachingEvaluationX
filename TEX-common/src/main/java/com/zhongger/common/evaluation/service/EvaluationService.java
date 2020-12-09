@@ -18,4 +18,6 @@ public interface EvaluationService {
     int insertStudentCourseEvaluation(AddEvaluation addEvaluation);
 
     int checkEvaluationInsert(AddEvaluation addEvaluation);
+
+    void updateStudentCourseEvaluation(AddEvaluation addEvaluation);
 }

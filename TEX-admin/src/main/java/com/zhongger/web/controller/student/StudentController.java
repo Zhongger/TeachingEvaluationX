@@ -9,6 +9,7 @@ import com.zhongger.common.course.domin.CourseVO;
 import com.zhongger.common.course.domin.SelectCourse;
 import com.zhongger.common.course.domin.SelectCourseVO;
 import com.zhongger.common.course.service.CourseService;
+import com.zhongger.common.evaluation.service.EvaluationService;
 import com.zhongger.common.student.domain.StudentVO;
 import com.zhongger.common.student.service.StudentService;
 import com.zhongger.common.utils.SecurityUtils;
@@ -32,6 +33,7 @@ public class StudentController extends BaseController {
 
     @Autowired
     private CourseService courseService;
+
 
     @GetMapping("/list")
     public TableDataInfo list(SysUser user) {

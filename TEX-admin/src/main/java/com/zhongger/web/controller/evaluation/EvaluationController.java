@@ -11,6 +11,7 @@ import com.zhongger.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,44 +25,63 @@ public class EvaluationController extends BaseController {
     private EvaluationService evaluationService;
 
     @PostMapping("/list")
-    public TableDataInfo list( EvaluationPO evaluationPO){
+    public TableDataInfo list(EvaluationPO evaluationPO) {
         AddEvaluation evaluation = new AddEvaluation();
         evaluation.setStudentId(SecurityUtils.getUsername());
         evaluation.setTeacherId(evaluationPO.getTeacherId());
         evaluation.setCourseId(evaluationPO.getCourseId());
         startPage();
-        List<Evaluation> list = evaluationService.selectEvaluationList(evaluation);
+        List<Evaluation> list = evaluationService.selectAllEvaluationList();
         return getDataTable(list);
     }
 
     @PostMapping("/addEvaluation")
-    public AjaxResult addEvaluation(@RequestBody EvaluationPO evaluationPO){
+    public AjaxResult addEvaluation(@RequestBody EvaluationPO evaluationPO) {
         AddEvaluation addEvaluation = new AddEvaluation();
         addEvaluation.setStudentId(SecurityUtils.getUsername());
         addEvaluation.setTeacherId(evaluationPO.getTeacherId());
         addEvaluation.setCourseId(evaluationPO.getCourseId());
         Integer row = 0;
         int count = evaluationService.checkEvaluationInsert(addEvaluation);
-        if (count>0){
+        if (count > 0) {
             return toAjax(count);
         }
         List<Evaluation> list = evaluationService.selectAllEvaluationList();
-        for (Evaluation evaluation :list) {
+        for (Evaluation evaluation : list) {
             addEvaluation.setEvaluationMetaId(evaluation.getId());
             evaluationService.insertStudentCourseEvaluation(addEvaluation);
-            row ++;
+            row++;
         }
         return toAjax(row);
     }
 
     /**
      * 前端传入数组，后端用List接收
+     *
      * @param evaluationList
      * @return
      */
     @PostMapping("/updateEvaluation")
-    public AjaxResult updateEvaluation(@RequestBody List<Evaluation> evaluationList){
-        System.out.println(evaluationList.toString());
-        return toAjax(1);
+    public AjaxResult updateEvaluation(@RequestBody List<Evaluation> evaluationList) {
+        String studentId = SecurityUtils.getUsername();
+        int row = 0;
+        List<AddEvaluation> addEvaluationList = new ArrayList<>();
+        for (Evaluation evaluation : evaluationList) {
+            AddEvaluation addEvaluation = new AddEvaluation();
+            addEvaluation.setStudentId(studentId);
+            addEvaluation.setCourseId(evaluation.getCourseId());
+            addEvaluation.setTeacherId(evaluation.getTeacherId());
+            addEvaluation.setEvaluationMetaId(evaluation.getEvaluationMetaId());
+            if (evaluation.getGrade() < 0 || evaluation.getGrade() > evaluation.getScore()) {
+                return AjaxResult.error("评价失败，评价项目" + evaluation.getEvaluationMetaId() + "中：评分不能小于0或大于满分！");
+            }
+            addEvaluation.setGrade(evaluation.getGrade());
+            addEvaluationList.add(addEvaluation);
+        }
+        for (AddEvaluation addEvaluation : addEvaluationList) {
+            evaluationService.updateStudentCourseEvaluation(addEvaluation);
+            row++;
+        }
+        return toAjax(row);
     }
 }

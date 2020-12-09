@@ -51,6 +51,7 @@
           <el-table-column label="课时" align="center" prop="courseTime" :show-overflow-tooltip="true"/>
           <el-table-column label="学分" align="center" prop="courseScore" :show-overflow-tooltip="true"/>
           <el-table-column label="选课状态" align="center" prop="selectStatus" :show-overflow-tooltip="true"/>
+
           <el-table-column
             label="操作"
             align="center"
@@ -262,7 +263,7 @@
     components: {Treeselect},
     data() {
       return {
-
+        
         evaluation:[],
         //评价框
         dialogFormVisible:false,
@@ -516,10 +517,20 @@
 
       /** 提交按钮 */
       submitForm: function () {
+        for (let i = 0; i < this.evaluation.length; i++) {
+          this.evaluation[i].teacherId=this.selectCourse.teacherId
+        }
 
-        console.log(this.evaluation)
         updateEvaluation(this.evaluation).then(response=>{
-          console.log(response)
+          this.dialogFormVisible=false;
+          this.$message({
+            type: 'success',
+            message: '评价成功!'
+          });
+
+          this.getList();
+
+
         })
       },
       /** 删除按钮操作 */

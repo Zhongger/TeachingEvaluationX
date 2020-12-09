@@ -19,4 +19,6 @@ public interface EvaluationMapper {
     List<Evaluation> selectAllEvaluationList();
 
     int checkEvaluationInsert(AddEvaluation addEvaluation);
+
+    void updateStudentCourseEvaluation(AddEvaluation addEvaluation);
 }
