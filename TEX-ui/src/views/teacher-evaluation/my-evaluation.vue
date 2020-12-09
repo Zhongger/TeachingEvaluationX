@@ -8,34 +8,7 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="课程名" prop="courseName">
-            <el-input
-              v-model="queryParams.courseName"
-              placeholder="请输入课程名"
-              clearable
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-          <el-form-item label="授课老师" prop="phonenumber">
-            <el-input
-              v-model="queryParams.phonenumber"
-              placeholder="请输入授课老师"
-              clearable
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
 
-
-          <el-form-item>
-            <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-          </el-form-item>
-        </el-form>
 
         <el-row :gutter="10" class="mb8">
 
@@ -216,7 +189,7 @@
                 size="mini"
                 type="text"
                 icon="el-icon-edit"
-                @click="handleUpdate(scope.row)"
+                @click="showDetail(scope.row)"
                 v-hasPermi="['teacher:user:list']"
               >查看详情
               </el-button>
@@ -225,8 +198,23 @@
         </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
         <el-button  @click="dialogFormVisible = false">取 消</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog v-model="evaluation2" title="教学评价" :visible.sync="dialogFormVisible2">
+      <el-form  ref="form" >
+        <el-table :data="evaluation2" v-model="evaluation2">
+
+          <el-table-column property="content" label="项目" width="500px"></el-table-column>
+          <el-table-column property="grade" label="评分" ></el-table-column>
+
+        </el-table>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary"  @click="dialogFormVisible2 = false">确 定</el-button>
+        <el-button  @click="dialogFormVisible2 = false">取 消</el-button>
       </div>
     </el-dialog>
   </div>
@@ -245,7 +233,7 @@
   } from "@/api/system/user";
   import{addSelectCourse,deleteSelectCourse} from "@/api/student/student"
   import {getToken} from "@/utils/auth";
-  import {listTeacher,listTeacherCourse,listEvaluationStudent} from "@/api/teacher/teacher";
+  import {listTeacher,listTeacherCourse,listEvaluationStudent,listEvaluationDetail} from "@/api/teacher/teacher";
   import {listEvaluation,addEvaluation,updateEvaluation} from "@/api/evaluation/evaluation";
   import {addCourse,listSelectCourse} from "@/api/course/course";
   import {treeselect} from "@/api/system/dept";
@@ -259,7 +247,9 @@
       return {
 
         evaluation:[],
+        evaluation2:[],
         //评价框
+        dialogFormVisible2:false,
         dialogFormVisible:false,
         formLabelWidth:'200px',
         // 遮罩层
@@ -476,6 +466,16 @@
         listEvaluationStudent({courseId:row.courseId}).then(response=>{
           this.evaluation=response.rows;
           this.dialogFormVisible=true;
+        });
+      },
+
+      showDetail(row){
+        listEvaluationDetail({
+          courseId:row.courseId,
+          studentId:row.studentId
+        }).then(response=>{
+          this.evaluation2=response.rows;
+          this.dialogFormVisible2=true;
         });
       },
 

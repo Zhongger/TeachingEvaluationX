@@ -1,6 +1,7 @@
 package com.zhongger.common.teacher.service;
 
 import com.zhongger.common.course.domin.CourseVO;
+import com.zhongger.common.evaluation.domain.Evaluation;
 import com.zhongger.common.student.domain.StudentVO;
 import com.zhongger.common.teacher.domain.TeacherVO;
 
@@ -16,4 +17,6 @@ public interface TeacherService {
     List<CourseVO> listTeacherCourse(String username);
 
     List<StudentVO> listEvaluationStudent(String username, String courseId);
+
+    List<Evaluation> listEvaluationDetail(String username, String courseId, String studentId);
 }

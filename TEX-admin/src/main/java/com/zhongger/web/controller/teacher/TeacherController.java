@@ -4,6 +4,7 @@ import com.zhongger.common.core.controller.BaseController;
 import com.zhongger.common.core.domain.entity.SysUser;
 import com.zhongger.common.core.page.TableDataInfo;
 import com.zhongger.common.course.domin.CourseVO;
+import com.zhongger.common.evaluation.domain.Evaluation;
 import com.zhongger.common.student.domain.StudentVO;
 import com.zhongger.common.teacher.domain.TeacherVO;
 import com.zhongger.common.teacher.service.TeacherService;
@@ -25,25 +26,33 @@ public class TeacherController extends BaseController {
     private TeacherService teacherService;
 
     @GetMapping("/list")
-    public TableDataInfo list(SysUser user){
+    public TableDataInfo list(SysUser user) {
         startPage();
-        List<TeacherVO> list = teacherService.selectTeacherList(user.getUserName(),"teacher");
+        List<TeacherVO> list = teacherService.selectTeacherList(user.getUserName(), "teacher");
         return getDataTable(list);
     }
 
     @PreAuthorize("@ss.hasPermi('teacher:user:list')")
     @GetMapping("/listTeacherCourse")
-    public TableDataInfo listTeacherCourse(){
+    public TableDataInfo listTeacherCourse() {
         startPage();
         List<CourseVO> list = teacherService.listTeacherCourse(SecurityUtils.getUsername());
         return getDataTable(list);
     }
 
     @PostMapping("/listEvaluationStudent")
-    public TableDataInfo listEvaluationStudent(String courseId){
+    public TableDataInfo listEvaluationStudent(String courseId) {
         startPage();
-        List<StudentVO> list = teacherService.listEvaluationStudent(SecurityUtils.getUsername(),courseId);
+        List<StudentVO> list = teacherService.listEvaluationStudent(SecurityUtils.getUsername(), courseId);
         return getDataTable(list);
+    }
+
+    @PostMapping("/listEvaluationDetail")
+    public TableDataInfo listEvaluationDetail(String courseId, String studentId) {
+        startPage();
+        List<Evaluation> list = teacherService.listEvaluationDetail(SecurityUtils.getUsername(), courseId, studentId);
+        return getDataTable(list);
+
     }
 
 }

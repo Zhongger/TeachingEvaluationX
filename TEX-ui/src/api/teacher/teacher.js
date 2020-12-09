@@ -26,3 +26,11 @@ export function listEvaluationStudent(data) {
     params: data
   })
 }
+
+export function listEvaluationDetail(data) {
+  return request({
+    url: '/teacher/listEvaluationDetail',
+    method: 'post',
+    params: data
+  })
+}

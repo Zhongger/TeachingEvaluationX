@@ -1,6 +1,7 @@
 package com.zhongger.common.teacher.service.impl;
 
 import com.zhongger.common.course.domin.CourseVO;
+import com.zhongger.common.evaluation.domain.Evaluation;
 import com.zhongger.common.student.domain.StudentVO;
 import com.zhongger.common.teacher.domain.TeacherVO;
 import com.zhongger.common.teacher.mapper.TeacherMapper;
@@ -32,5 +33,10 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<StudentVO> listEvaluationStudent(String username, String courseId) {
         return teacherMapper.listEvaluationStudent(username,courseId);
+    }
+
+    @Override
+    public List<Evaluation> listEvaluationDetail(String username, String courseId, String studentId) {
+        return teacherMapper.listEvaluationDetail(username,courseId,studentId);
     }
 }
