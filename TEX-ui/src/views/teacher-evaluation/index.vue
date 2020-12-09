@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <el-row :gutter="20">
+    <el-row :gutter="50">
       <!--院系数据-->
       <el-col :span="4" :xs="24">
 
@@ -8,85 +8,12 @@
       </el-col>
       <!--用户数据-->
       <el-col :span="20" :xs="24">
-        <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
-          <el-form-item label="课程名" prop="courseName">
-            <el-input
-              v-model="queryParams.courseName"
-              placeholder="请输入课程名"
-              clearable
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-          <el-form-item label="授课老师" prop="phonenumber">
-            <el-input
-              v-model="queryParams.phonenumber"
-              placeholder="请输入授课老师"
-              clearable
-              size="small"
-              style="width: 240px"
-              @keyup.enter.native="handleQuery"
-            />
-          </el-form-item>
-
-
-          <el-form-item>
-            <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
-            <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
-          </el-form-item>
-        </el-form>
-
-        <el-row :gutter="10" class="mb8">
-
-        </el-row>
 
         <el-table v-loading="loading" :data="userList" @selection-change="handleSelectionChange">
-          <el-table-column type="selection" width="50" align="center"/>
-          <el-table-column label="课程编号" align="center" prop="courseId"/>
-          <el-table-column label="课程名称" align="center" prop="courseName" :show-overflow-tooltip="true"/>
-          <el-table-column label="开设学院/专业" width="300" align="center" prop="courseDeptName" :show-overflow-tooltip="true"/>
-          <el-table-column label="课程性质" align="center" prop="courseType" :show-overflow-tooltip="true"/>
-          <el-table-column label="授课老师" align="center" prop="courseTeacherName" :show-overflow-tooltip="true"/>
-          <el-table-column label="课时" align="center" prop="courseTime" :show-overflow-tooltip="true"/>
-          <el-table-column label="学分" align="center" prop="courseScore" :show-overflow-tooltip="true"/>
-          <el-table-column label="选课状态" align="center" prop="selectStatus" :show-overflow-tooltip="true"/>
+          <el-table-column type="selection" width="50" align="left"/>
+          <el-table-column label="教评项目" align="left" prop="content" :show-overflow-tooltip="false"/>
+          <el-table-column label="权重(总:100)" width="100" align="center" prop="score" :show-overflow-tooltip="true"/>
 
-          <el-table-column
-            label="操作"
-            align="center"
-            width="160"
-            class-name="small-padding fixed-width"
-          >
-            <template slot-scope="scope">
-              <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-edit"
-                @click="handleUpdate(scope.row)"
-                v-hasPermi="['student:user:list']"
-              >选课
-              </el-button>
-              <el-button
-                v-if="scope.row.userId !== 1"
-                size="mini"
-                type="text"
-                icon="el-icon-delete"
-                @click="handleDelete(scope.row)"
-                v-hasPermi="['student:user:list']"
-              >退选
-              </el-button>
-              <el-button
-                size="mini"
-                type="text"
-                icon="el-icon-key"
-                v-if="scope.row.selectStatus==='已选'"
-                @click="handleEvaluate(scope.row)"
-                v-hasPermi="['student:user:list']"
-              >评价
-              </el-button>
-            </template>
-          </el-table-column>
         </el-table>
 
         <pagination
@@ -217,24 +144,6 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog v-model="evaluation" title="教学评价" :visible.sync="dialogFormVisible">
-      <el-form  ref="form" >
-        <el-table :data="evaluation" v-model="evaluation">
-          <el-table-column property="content" label="评价项目" width="500px" ></el-table-column>
-          <el-table-column property="score" label="满分" ></el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope" >
-              <el-input v-model="scope.row.grade" placeholder="请输入评分"></el-input>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button  @click="dialogFormVisible = false">取 消</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -250,9 +159,9 @@
     importTemplate
   } from "@/api/system/user";
   import{addSelectCourse,deleteSelectCourse} from "@/api/student/student"
+  import {listEvaluation} from "@/api/evaluation/evaluation"
   import {getToken} from "@/utils/auth";
   import {listTeacher} from "@/api/teacher/teacher";
-  import {listEvaluation,addEvaluation,updateEvaluation} from "@/api/evaluation/evaluation";
   import {addCourse,listSelectCourse} from "@/api/course/course";
   import {treeselect} from "@/api/system/dept";
   import Treeselect from "@riophae/vue-treeselect";
@@ -263,11 +172,6 @@
     components: {Treeselect},
     data() {
       return {
-
-        evaluation:[],
-        //评价框
-        dialogFormVisible:false,
-        formLabelWidth:'200px',
         // 遮罩层
         loading: true,
         // 选中数组
@@ -323,11 +227,6 @@
         }],
         // 表单参数
         form: {},
-        //添加评价参数
-        addEvaluation:{
-          courseId: '',
-          teacherId: ''
-        },
         //选课参数
         selectCourse:{
           courseId: '',
@@ -363,8 +262,17 @@
         },
         // 表单校验
         rules: {
-          grade: [
+          userName: [
             {required: true, message: "课程编号不能为空", trigger: "blur"}
+          ],
+          nickName: [
+            {required: true, message: "课程名称不能为空", trigger: "blur"}
+          ],
+          deptId: [
+            {required: true, message: "开设院系不能为空", trigger: "change"}
+          ],
+          password: [
+            {required: true, message: "学分不能为空", trigger: "blur"}
           ]
         }
       };
@@ -393,13 +301,13 @@
       /** 查询用户列表 */
       getList() {
         this.loading = true;
-
-        listSelectCourse(this.queryParams).then(response => {
+        listEvaluation(this.queryParams).then(response => {
             this.userList = response.rows;
             this.total = response.total;
             this.loading = false;
           }
         );
+
       },
       /** 查询院系下拉树结构 */
       getTreeselect() {
@@ -517,21 +425,23 @@
 
       /** 提交按钮 */
       submitForm: function () {
-        for (let i = 0; i < this.evaluation.length; i++) {
-          this.evaluation[i].teacherId=this.selectCourse.teacherId
-        }
-
-        updateEvaluation(this.evaluation).then(response=>{
-          this.dialogFormVisible=false;
-          this.$message({
-            type: 'success',
-            message: '评价成功!'
-          });
-
-          this.getList();
-
-
-        })
+        this.$refs["form"].validate(valid => {
+          if (valid) {
+            if (this.form.userId != undefined) {
+              updateUser(this.form).then(response => {
+                this.msgSuccess("修改成功");
+                this.open = false;
+                this.getList();
+              });
+            } else {
+              addCourse(this.form).then(response =>{
+                this.msgSuccess("新增成功");
+                this.open = false;
+                this.getList();
+              });
+            }
+          }
+        });
       },
       /** 删除按钮操作 */
       handleDelete(row) {
@@ -565,24 +475,6 @@
             message: '已取消退选'
           });
         });
-      },
-
-      handleEvaluate(row){
-        this.dialogFormVisible=true;
-        this.selectCourse.teacherId=row.teacherId;
-        this.selectCourse.courseId=row.courseId;
-        addEvaluation({
-          courseId: this.selectCourse.courseId,
-          teacherId: this.selectCourse.teacherId
-        }).then(response2=>{
-
-          listEvaluation({
-            courseId: this.selectCourse.courseId,
-            teacherId:this.selectCourse.teacherId
-          }).then(response=>{
-            this.evaluation=response.rows;
-          })
-        })
       },
       /** 导出按钮操作 */
       handleExport() {
