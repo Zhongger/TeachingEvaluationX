@@ -209,6 +209,7 @@ public class SysUserServiceImpl implements ISysUserService {
             SysRole sysRole = roleMapper.selectRoleById(roleId);
             roles.append(sysRole.getRoleName());
         }
+        //TODO 前端是可以多选角色的，但后端没有做这方面的判断逻辑
         if (roles.toString().equals("学生")) {//创建用户时，如果该用户的身份是学生，则插入到student表中
             studentMapper.insertStudent(user.getUserName(), user.getUserId());
         }
