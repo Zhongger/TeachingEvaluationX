@@ -84,4 +84,11 @@ public class EvaluationController extends BaseController {
         }
         return toAjax(row);
     }
+
+    @GetMapping("/listEvaluationResult")
+    public TableDataInfo listEvaluationResult(){
+        startPage();
+        List<Evaluation> list = evaluationService.listEvaluationResult();
+        return getDataTable(list);
+    }
 }

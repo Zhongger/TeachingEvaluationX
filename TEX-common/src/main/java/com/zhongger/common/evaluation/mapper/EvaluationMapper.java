@@ -21,4 +21,7 @@ public interface EvaluationMapper {
     int checkEvaluationInsert(AddEvaluation addEvaluation);
 
     void updateStudentCourseEvaluation(AddEvaluation addEvaluation);
+
+    List<Evaluation> listEvaluationResult();
+
 }

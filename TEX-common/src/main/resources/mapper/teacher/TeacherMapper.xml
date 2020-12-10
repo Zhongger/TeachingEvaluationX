@@ -59,6 +59,8 @@
         group by sce.course_id;
     </select>
 
+
+
     <select id="listEvaluationDetail" resultType="com.zhongger.common.evaluation.domain.Evaluation">
         select sce.student_id as studentId,sce.teacher_id as teacherId,
        sce.course_id as courseId,sce.grade as grade,
@@ -72,4 +74,31 @@
         where sce.teacher_id=#{teacherId} and sce.student_id=#{studentId} and sce.course_id=#{courseId};
     </select>
 
+    <select id="listEvaluationSum" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sum(sce.grade) as grade,
+        sce.evaluation_id as evaluationMetaId,em.content as content
+        from student_course_evaluation sce
+        inner join  evaluation_meta em on sce.evaluation_id=em.id
+        where teacher_id=#{teacherId} group by evaluation_id;
+    </select>
+
+    <select id="listEvaluationCourseSumList" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sum(sce.grade) as grade,
+        sce.evaluation_id as evaluationMetaId,
+        em.content as content,
+        c.course_name as courseName,
+        sce.course_id as courseId
+        from student_course_evaluation sce
+        inner join evaluation_meta em on sce.evaluation_id=em.id
+        inner join course c on sce.course_id = c.course_id
+        where 1=1 and
+        sce.teacher_id=#{teacherId}
+        <if test="evaluationMetaIds!=null and evaluationMetaIds.size()>0">
+            and sce.evaluation_id in
+            <foreach item="item" index="index" collection="evaluationMetaIds" open="("  close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by evaluationMetaId,courseId;
+    </select>
 </mapper> 

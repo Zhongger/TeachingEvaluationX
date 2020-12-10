@@ -12,7 +12,34 @@ public class Evaluation implements Serializable {
     private Double grade;
     private String courseId;
     private String teacherId;
+    private String teacherName;
     private Integer evaluationMetaId;
+    private String deptName;
+    private String courseName;
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
 
     public Integer getEvaluationMetaId() {
         return evaluationMetaId;

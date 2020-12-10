@@ -19,4 +19,8 @@ public interface TeacherService {
     List<StudentVO> listEvaluationStudent(String username, String courseId);
 
     List<Evaluation> listEvaluationDetail(String username, String courseId, String studentId);
+
+    List<Evaluation> listEvaluationSum(String username);
+
+    List<Evaluation> listEvaluationCourseSumList(String username, List<Integer> evaluationMetaIds);
 }

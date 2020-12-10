@@ -39,4 +39,14 @@ public class TeacherServiceImpl implements TeacherService {
     public List<Evaluation> listEvaluationDetail(String username, String courseId, String studentId) {
         return teacherMapper.listEvaluationDetail(username,courseId,studentId);
     }
+
+    @Override
+    public List<Evaluation> listEvaluationSum(String username) {
+        return teacherMapper.listEvaluationSum(username);
+    }
+
+    @Override
+    public List<Evaluation> listEvaluationCourseSumList(String username, List<Integer> evaluationMetaIds) {
+        return teacherMapper.listEvaluationCourseSumList(username,evaluationMetaIds);
+    }
 }

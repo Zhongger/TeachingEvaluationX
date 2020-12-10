@@ -34,3 +34,27 @@ export function listEvaluationDetail(data) {
     params: data
   })
 }
+
+export function getEvaluationContentResultAnalysis(data) {
+  return request({
+    url: '/teacher/getEvaluationContentResultAnalysis',
+    method: 'get',
+    params: data
+  })
+}
+
+export function getEvaluationSummary(data) {
+  return request({
+    url: '/teacher/getEvaluationSummary',
+    method: 'get',
+    params: data
+  })
+}
+
+export function getEvaluationSumList(data) {
+  return request({
+    url: '/teacher/getEvaluationSumList',
+    method: 'get',
+    params: data
+  })
+}

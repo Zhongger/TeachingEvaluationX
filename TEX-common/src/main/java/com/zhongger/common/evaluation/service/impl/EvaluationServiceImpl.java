@@ -41,4 +41,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public void updateStudentCourseEvaluation(AddEvaluation addEvaluation) {
          evaluationMapper.updateStudentCourseEvaluation(addEvaluation);
     }
+
+    @Override
+    public List<Evaluation> listEvaluationResult() {
+        return evaluationMapper.listEvaluationResult();
+    }
 }

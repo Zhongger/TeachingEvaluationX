@@ -20,4 +20,7 @@ public interface EvaluationService {
     int checkEvaluationInsert(AddEvaluation addEvaluation);
 
     void updateStudentCourseEvaluation(AddEvaluation addEvaluation);
+
+    List<Evaluation> listEvaluationResult();
+
 }

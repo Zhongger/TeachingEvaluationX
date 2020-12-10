@@ -1,7 +1,7 @@
 import request from '@/utils/request'
-import { praseStrEmpty } from "@/utils/ruoyi";
+import {praseStrEmpty} from "@/utils/ruoyi";
 
-export function listEvaluation(data){
+export function listEvaluation(data) {
   return request({
     url: '/evaluation/list',
     method: 'post',
@@ -22,5 +22,13 @@ export function updateEvaluation(data) {
     data: data,
     url: '/evaluation/updateEvaluation',
     method: 'post'
+  })
+}
+
+export function listEvaluationResult(query) {
+  return request({
+    data: query,
+    url: '/evaluation/listEvaluationResult',
+    method: 'get'
   })
 }

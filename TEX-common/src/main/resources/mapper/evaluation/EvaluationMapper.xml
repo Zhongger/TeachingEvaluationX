@@ -53,4 +53,18 @@
 
     </select>
 
+    <select id="listEvaluationResult" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select
+            sce.teacher_id as teacherId,
+            su.nick_name as teacherName,
+            sd.dept_name as deptName,
+            sum(sce.grade) as grade
+        from student_course_evaluation sce
+        inner join teacher t on sce.teacher_id = t.teacher_id
+        inner join sys_user su on t.teacher_id = su.user_name
+        inner join sys_dept sd on su.dept_id = sd.dept_id
+        group by sce.teacher_id
+        order by grade;
+    </select>
+
 </mapper>

@@ -22,4 +22,8 @@ public interface TeacherMapper {
 
     List<Evaluation> listEvaluationDetail(@Param("teacherId") String teacherId,  @Param("courseId") String courseId,
                                           @Param("studentId")  String studentId);
+
+    List<Evaluation> listEvaluationSum(@Param("teacherId") String teacherId);
+
+    List<Evaluation> listEvaluationCourseSumList(@Param("teacherId")String username,@Param("evaluationMetaIds") List<Integer> evaluationMetaIds);
 }
