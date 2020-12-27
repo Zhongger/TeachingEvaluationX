@@ -32,11 +32,7 @@
           <el-table-column label="教师号" align="center" prop="teacherId" :show-overflow-tooltip="true"/>
           <el-table-column label="教师姓名" align="center" prop="name" :show-overflow-tooltip="true"/>
           <el-table-column label="所属院系" align="center" prop="deptName" :show-overflow-tooltip="true"/>
-          <el-table-column label="性别" align="center" prop="sex" :show-overflow-tooltip="true">
-            <template slot-scope="scope">
-              {{scope.row.sex===0?'男':'女'}}
-            </template>
-          </el-table-column>
+          <el-table-column label="性别" align="center" prop="sex" :show-overflow-tooltip="true"/>
           <el-table-column label="手机号码" align="center" prop="phone" width="120"/>
           <el-table-column label="电子邮箱" align="center" prop="email" width="120"/>
         </el-table>

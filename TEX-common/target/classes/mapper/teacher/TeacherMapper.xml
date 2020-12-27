@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhongger.common.teacher.mapper.TeacherMapper">
+    <select id="selectTeacherList" resultType="com.zhongger.common.teacher.domain.TeacherVO">
+        select *
+        from (select s.teacher_id as teacherId,
+        s.user_id as id,
+        su.nick_name as name,
+        su.sex as sex,
+        su.phonenumber as phone,
+        su.email as email,
+        sd.dept_name as deptName,
+        sr.role_key
+        from teacher s
+        inner join sys_user su on s.user_id = su.user_id
+        inner join sys_dept sd on sd.dept_id = su.dept_id
+        inner join sys_user_role sur on s.user_id = sur.user_id
+        inner join sys_role sr on sur.role_id = sr.role_id) t
+        where t.role_key = #{roleKey}
+        <if test="teacherId  != null and teacherId != ''">
+            and t.teacherId=#{teacherId}
+        </if>
+    </select>
+
+    <insert id="insertTeacher">
+		insert into teacher (teacher_id,user_id) values (#{teacherId},#{userId});
+	</insert>
+
+    <select id="listTeacherCourse"
+            resultType="com.zhongger.common.course.domin.CourseVO">
+        select * from (select course_id as courseId,course_name as courseName,
+        sd.dept_name as courseDeptName,course_type as courseType,
+        su.nick_name as courseTeacherName, course_time as courseTime,
+        course_score as courseScore,
+        t.teacher_id as teacherId
+        from course inner join teacher t on course.teacher_id = t.teacher_id
+        inner join sys_dept sd on course.dept_id = sd.dept_id
+        inner join sys_user su on su.user_name = t.teacher_id) t
+        where 1=1
+        <if test="teacherId!=null and teacherId!='' ">
+            and t.teacherId=#{teacherId}
+        </if>
+
+    </select>
+
+    <select id="listEvaluationStudent" resultType="com.zhongger.common.student.domain.StudentVO">
+        select sce.course_id as courseId ,
+        sce.student_id as studentId,
+        su.nick_name as studentName,
+        sd.dept_name as deptName,
+        sum(sce.grade) as grade
+        from student_course_evaluation sce
+        inner join student s on sce.student_id = s.student_id
+        inner join sys_user su on s.student_id = su.user_name
+        inner join sys_dept sd on su.dept_id = sd.dept_id
+        where  sce.teacher_id=#{teacherId} and sce.course_id=#{courseId}
+        group by sce.course_id;
+    </select>
+
+
+
+    <select id="listEvaluationDetail" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sce.student_id as studentId,sce.teacher_id as teacherId,
+       sce.course_id as courseId,sce.grade as grade,
+       c.course_name as courseName,em.content as content,
+       su.nick_name as studentName
+        from student_course_evaluation sce
+        inner join course c on sce.course_id = c.course_id
+        inner join evaluation_meta em on sce.evaluation_id=em.id
+        inner join student s on sce.student_id = s.student_id
+        inner join sys_user su on s.student_id = su.user_name
+        where sce.teacher_id=#{teacherId} and sce.student_id=#{studentId} and sce.course_id=#{courseId};
+    </select>
+
+    <select id="listEvaluationSum" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sum(sce.grade) as grade,
+        sce.evaluation_id as evaluationMetaId,em.content as content
+        from student_course_evaluation sce
+        inner join  evaluation_meta em on sce.evaluation_id=em.id
+        where teacher_id=#{teacherId} group by evaluation_id;
+    </select>
+
+    <select id="listEvaluationCourseSumList" resultType="com.zhongger.common.evaluation.domain.Evaluation">
+        select sum(sce.grade) as grade,
+        sce.evaluation_id as evaluationMetaId,
+        em.content as content,
+        c.course_name as courseName,
+        sce.course_id as courseId
+        from student_course_evaluation sce
+        inner join evaluation_meta em on sce.evaluation_id=em.id
+        inner join course c on sce.course_id = c.course_id
+        where 1=1 and
+        sce.teacher_id=#{teacherId}
+        <if test="evaluationMetaIds!=null and evaluationMetaIds.size()>0">
+            and sce.evaluation_id in
+            <foreach item="item" index="index" collection="evaluationMetaIds" open="("  close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        group by evaluationMetaId,courseId;
+    </select>
+</mapper> 

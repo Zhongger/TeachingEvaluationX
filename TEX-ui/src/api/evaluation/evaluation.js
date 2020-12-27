@@ -8,6 +8,13 @@ export function listEvaluation(data) {
     params: data
   })
 }
+export function listTeacherEvaluation(data) {
+  return request({
+    url: '/evaluation/teacher/list',
+    method: 'post',
+    params: data
+  })
+}
 
 export function addEvaluation(data) {
   return request({

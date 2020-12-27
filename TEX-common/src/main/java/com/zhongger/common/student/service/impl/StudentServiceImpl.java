@@ -20,6 +20,15 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentVO> selectStudentList(String studentId, String roleKey) {
-        return studentMapper.selectStudentList(studentId,roleKey);
+
+        List<StudentVO> studentVOS = studentMapper.selectStudentList(studentId, roleKey);
+        studentVOS.forEach(studentVO -> {
+            if (studentVO.getSex().equals("0")){
+                studentVO.setSex("男");
+            }else {
+                studentVO.setSex("女");
+            }
+        });
+        return studentVOS;
     }
 }

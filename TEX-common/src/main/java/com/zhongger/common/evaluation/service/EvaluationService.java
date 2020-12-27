@@ -2,6 +2,7 @@ package com.zhongger.common.evaluation.service;
 
 import com.zhongger.common.evaluation.domain.AddEvaluation;
 import com.zhongger.common.evaluation.domain.Evaluation;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,5 @@ public interface EvaluationService {
 
     List<Evaluation> listEvaluationResult();
 
+    List<Evaluation> selectAllEvaluationListByStudentSelect(@Param("studentId") String studentId, @Param("teacherId") String teacherId, @Param("courseId") String courseId);
 }

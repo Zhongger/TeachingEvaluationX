@@ -519,9 +519,12 @@
       submitForm: function () {
         for (let i = 0; i < this.evaluation.length; i++) {
           this.evaluation[i].teacherId=this.selectCourse.teacherId
+          this.evaluation[i].courseId = this.selectCourse.courseId
         }
 
         updateEvaluation(this.evaluation).then(response=>{
+
+          console.log(this.evaluation)
           this.dialogFormVisible=false;
           this.$message({
             type: 'success',

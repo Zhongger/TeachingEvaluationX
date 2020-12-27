@@ -159,7 +159,7 @@
     importTemplate
   } from "@/api/system/user";
   import{addSelectCourse,deleteSelectCourse} from "@/api/student/student"
-  import {listEvaluation} from "@/api/evaluation/evaluation"
+  import {listTeacherEvaluation} from "@/api/evaluation/evaluation"
   import {getToken} from "@/utils/auth";
   import {listTeacher} from "@/api/teacher/teacher";
   import {addCourse,listSelectCourse} from "@/api/course/course";
@@ -301,7 +301,7 @@
       /** 查询用户列表 */
       getList() {
         this.loading = true;
-        listEvaluation(this.queryParams).then(response => {
+        listTeacherEvaluation(this.queryParams).then(response => {
             this.userList = response.rows;
             this.total = response.total;
             this.loading = false;

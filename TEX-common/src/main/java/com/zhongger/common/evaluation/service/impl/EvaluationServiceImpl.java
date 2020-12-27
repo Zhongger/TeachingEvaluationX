@@ -46,4 +46,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Evaluation> listEvaluationResult() {
         return evaluationMapper.listEvaluationResult();
     }
+
+    @Override
+    public List<Evaluation> selectAllEvaluationListByStudentSelect(String studentId, String teacherId, String courseId) {
+        return evaluationMapper.selectAllEvaluationListByStudentSelect(studentId, teacherId, courseId);
+    }
 }

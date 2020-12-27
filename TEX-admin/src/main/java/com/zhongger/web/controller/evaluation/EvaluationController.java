@@ -24,6 +24,17 @@ public class EvaluationController extends BaseController {
     @Autowired
     private EvaluationService evaluationService;
 
+    @PostMapping("/teacher/list")
+    public TableDataInfo teacherList(EvaluationPO evaluationPO) {
+        AddEvaluation evaluation = new AddEvaluation();
+        evaluation.setStudentId(SecurityUtils.getUsername());
+        evaluation.setTeacherId(evaluationPO.getTeacherId());
+        evaluation.setCourseId(evaluationPO.getCourseId());
+        startPage();
+        List<Evaluation> list = evaluationService.selectAllEvaluationList();
+        return getDataTable(list);
+    }
+
     @PostMapping("/list")
     public TableDataInfo list(EvaluationPO evaluationPO) {
         AddEvaluation evaluation = new AddEvaluation();
@@ -31,7 +42,8 @@ public class EvaluationController extends BaseController {
         evaluation.setTeacherId(evaluationPO.getTeacherId());
         evaluation.setCourseId(evaluationPO.getCourseId());
         startPage();
-        List<Evaluation> list = evaluationService.selectAllEvaluationList();
+
+        List<Evaluation> list = evaluationService.selectAllEvaluationListByStudentSelect(evaluation.getStudentId(),evaluation.getTeacherId(),evaluation.getCourseId());
         return getDataTable(list);
     }
 
@@ -71,7 +83,7 @@ public class EvaluationController extends BaseController {
             addEvaluation.setStudentId(studentId);
             addEvaluation.setCourseId(evaluation.getCourseId());
             addEvaluation.setTeacherId(evaluation.getTeacherId());
-            addEvaluation.setEvaluationMetaId(evaluation.getEvaluationMetaId());
+            addEvaluation.setEvaluationMetaId(evaluation.getId());
             if (evaluation.getGrade() < 0 || evaluation.getGrade() > evaluation.getScore()) {
                 return AjaxResult.error("评价失败，评价项目" + evaluation.getEvaluationMetaId() + "中：评分不能小于0或大于满分！");
             }

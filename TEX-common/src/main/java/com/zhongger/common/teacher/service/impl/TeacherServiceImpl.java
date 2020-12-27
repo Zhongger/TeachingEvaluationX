@@ -22,7 +22,15 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public List<TeacherVO> selectTeacherList(String teacherId, String roleKey) {
-        return teacherMapper.selectTeacherList(teacherId, roleKey);
+        List<TeacherVO> teacherVOS = teacherMapper.selectTeacherList(teacherId, roleKey);
+        teacherVOS.forEach(teacherVO -> {
+            if (teacherVO.getSex().equals("0")){
+                teacherVO.setSex("男");
+            }else {
+                teacherVO.setSex("女");
+            }
+        });
+        return teacherVOS;
     }
 
     @Override
